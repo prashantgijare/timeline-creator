@@ -1,41 +1,34 @@
-import React, { useState } from 'react';
-import { Header, Sidebar, MainContent, TimelineEditor } from './components'; // Import MainContent and TimelineEditor
-import { TemplateData } from './types'; // Import TemplateData
+import React, { useState } from 'react'
+import Header from './components/Header'
+import Sidebar from './components/Sidebar'
+import MainContent from './components/MainContent'
+import TimelineEditor from './components/TimelineEditor' // Import the new component
 
 function App() {
-  // State to hold the selected template data. null means no template selected yet.
-  const [selectedTemplateData, setSelectedTemplateData] = useState<TemplateData | null>(null);
-
-  // Handler function to be passed to MainContent
-  const handleSelectTemplate = (templateData: TemplateData) => {
-    setSelectedTemplateData(templateData);
-  };
-
-  // Handler to go back to the template selection
-  // We might need a button in Header or TimelineEditor later to trigger this
-  const handleGoBackToTemplates = () => {
-    setSelectedTemplateData(null);
-  };
+  // Basic state to toggle between views (example)
+  // For now, we'll directly show the TimelineEditor
+  // const [showEditor, setShowEditor] = useState(false);
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="The AI Office Timeline Creator" />
-        {/* Conditionally render MainContent or TimelineEditor */}
-        {selectedTemplateData ? (
-          <TimelineEditor
-            key={selectedTemplateData.id} // Use key to force re-mount when template changes
-            initialRows={selectedTemplateData.initialRows}
-            initialEvents={selectedTemplateData.initialEvents}
-            // Add a way to go back, e.g., pass handleGoBackToTemplates to a button inside TimelineEditor or Header
-          />
-        ) : (
-          <MainContent onSelectTemplate={handleSelectTemplate} />
-        )}
+    <div className="flex flex-col h-screen bg-gray-100">
+      <Header />
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar />
+        {/* Replace MainContent with TimelineEditor */}
+        {/* {showEditor ? <TimelineEditor /> : <MainContent />} */}
+        <TimelineEditor />
+        <FeedbackTab />
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+// Simple Feedback Tab component for the side
+const FeedbackTab = () => (
+  <div className="fixed right-0 top-1/2 transform -translate-y-1/2 bg-orange-500 text-white p-2 rounded-l-md cursor-pointer shadow-md hover:bg-orange-600 transition-colors z-10">
+    <span className="writing-mode-vertical-rl rotate-180">Feedback</span>
+  </div>
+)
+
+
+export default App
